@@ -16,14 +16,14 @@ onMounted(() => {
 </script>
 
 <template>
-  <v-app>
+  <div class="app-layout">
     <AppNavbar v-if="auth.isAuthenticated" />
-    <v-main>
+    <main class="app-main">
       <router-view v-slot="{ Component }">
         <transition name="fade" mode="out-in">
           <component :is="Component" />
         </transition>
       </router-view>
-    </v-main>
-  </v-app>
+    </main>
+  </div>
 </template>

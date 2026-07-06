@@ -59,144 +59,175 @@ function copyToClipboard(text) {
 </script>
 
 <template>
-  <v-container fluid class="pa-6">
-    <v-row align="center" justify="space-between" class="mb-6">
-      <v-col>
-        <h1 class="text-h4 font-weight-bold">Welcome back, {{ auth.user?.full_name?.split(' ')[0] }}</h1>
-        <p class="text-body-2 text-medium-emphasis">Here's an overview of your secure vault</p>
-      </v-col>
-      <v-col cols="auto">
-        <v-btn color="primary" prepend-icon="mdi-plus" @click="showAddModal = true">Add Password</v-btn>
-      </v-col>
-    </v-row>
+  <div class="pa-6" style="max-width:1200px;margin:0 auto">
+    <div class="flex items-center justify-between mb-6 flex-wrap gap-3">
+      <div>
+        <h1 class="text-h4 font-bold">Welcome back, {{ auth.user?.full_name?.split(' ')[0] }}</h1>
+        <p class="text-body text-secondary">Here's an overview of your secure vault</p>
+      </div>
+      <button class="btn btn-primary" @click="showAddModal = true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Password
+      </button>
+    </div>
 
-    <v-row class="mb-6">
-      <v-col cols="12" sm="6" md="3">
-        <v-card class="pa-4 d-flex align-center ga-4" hover>
-          <v-avatar color="primary" size="48" rounded="lg">
-            <v-icon color="white" size="24">mdi-lock</v-icon>
-          </v-avatar>
-          <div>
-            <div class="text-h5 font-weight-bold">{{ totalPasswords }}</div>
-            <div class="text-caption text-medium-emphasis">Total Passwords</div>
-          </div>
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="6" md="3">
-        <v-card class="pa-4 d-flex align-center ga-4" hover>
-          <v-avatar color="secondary" size="48" rounded="lg">
-            <v-icon color="white" size="24">mdi-shuffle-variant</v-icon>
-          </v-avatar>
-          <div>
-            <div class="text-h5 font-weight-bold">{{ categories.length }}</div>
-            <div class="text-caption text-medium-emphasis">Categories</div>
-          </div>
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="6" md="3">
-        <v-card class="pa-4 d-flex align-center ga-4" hover>
-          <v-avatar color="accent" size="48" rounded="lg">
-            <v-icon color="white" size="24">mdi-shield-check</v-icon>
-          </v-avatar>
-          <div>
-            <div class="text-h5 font-weight-bold">Secure</div>
-            <div class="text-caption text-medium-emphasis">Encrypted Storage</div>
-          </div>
-        </v-card>
-      </v-col>
-      <v-col cols="12" sm="6" md="3">
-        <v-card class="pa-4 d-flex align-center ga-4" hover>
-          <v-avatar color="success" size="48" rounded="lg">
-            <v-icon color="white" size="24">mdi-check-circle</v-icon>
-          </v-avatar>
-          <div>
-            <div class="text-h5 font-weight-bold">Active</div>
-            <div class="text-caption text-medium-emphasis">Account Status</div>
-          </div>
-        </v-card>
-      </v-col>
-    </v-row>
+    <div class="grid grid-4 mb-6">
+      <div class="card pa-4 flex items-center gap-4 stat-card">
+        <div class="avatar avatar-lg avatar-primary" style="border-radius:12px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+        </div>
+        <div>
+          <div class="text-h4 font-bold">{{ totalPasswords }}</div>
+          <div class="text-caption text-secondary">Total Passwords</div>
+        </div>
+      </div>
+      <div class="card pa-4 flex items-center gap-4 stat-card">
+        <div class="avatar avatar-lg" style="background:var(--secondary);border-radius:12px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+        </div>
+        <div>
+          <div class="text-h4 font-bold">{{ categories.length }}</div>
+          <div class="text-caption text-secondary">Categories</div>
+        </div>
+      </div>
+      <div class="card pa-4 flex items-center gap-4 stat-card">
+        <div class="avatar avatar-lg" style="background:var(--accent);border-radius:12px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+        </div>
+        <div>
+          <div class="text-h4 font-bold">Secure</div>
+          <div class="text-caption text-secondary">Encrypted Storage</div>
+        </div>
+      </div>
+      <div class="card pa-4 flex items-center gap-4 stat-card">
+        <div class="avatar avatar-lg" style="background:var(--success);border-radius:12px">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+        </div>
+        <div>
+          <div class="text-h4 font-bold">Active</div>
+          <div class="text-caption text-secondary">Account Status</div>
+        </div>
+      </div>
+    </div>
 
-    <v-row>
-      <v-col cols="12" md="7">
-        <v-card>
-          <v-card-title class="d-flex justify-space-between align-center">
-            <span class="text-h6">Recent Passwords</span>
-            <router-link to="/passwords" class="text-primary text-body-2 text-decoration-none">View All</router-link>
-          </v-card-title>
-          <v-card-text>
-            <v-list v-if="recentPasswords.length" lines="one" density="compact">
-              <v-list-item v-for="item in recentPasswords" :key="item.id" @click="router.push(`/passwords/${item.id}`)" rounded="lg" class="mb-1">
-                <template #prepend>
-                  <v-avatar :color="'primary'" size="40" rounded="lg">
-                    <span class="text-white font-weight-bold">{{ item.site_name?.charAt(0)?.toUpperCase() || '?' }}</span>
-                  </v-avatar>
-                </template>
-                <v-list-item-title class="font-weight-medium">{{ item.site_name }}</v-list-item-title>
-                <v-list-item-subtitle>{{ item.site_url || 'No URL' }}</v-list-item-subtitle>
-                <template #append>
-                  <v-chip size="x-small" color="primary" variant="tonal">{{ item.category }}</v-chip>
-                </template>
-              </v-list-item>
-            </v-list>
-            <v-empty-state v-else icon="mdi-lock" title="No passwords yet" text="Add your first password to get started" />
-          </v-card-text>
-        </v-card>
-      </v-col>
-      <v-col cols="12" md="5">
-        <v-card>
-          <v-card-title class="text-h6">Categories</v-card-title>
-          <v-card-text>
-            <v-list v-if="categories.length" lines="one" density="compact">
-              <v-list-item v-for="cat in categories" :key="cat.category">
-                <template #prepend>
-                  <v-avatar :color="'primary'" size="12" rounded="circle" class="mr-2" />
-                </template>
-                <v-list-item-title>{{ cat.category }}</v-list-item-title>
-                <template #append>
-                  <v-chip size="x-small" variant="tonal">{{ cat.count }}</v-chip>
-                </template>
-              </v-list-item>
-            </v-list>
-            <v-empty-state v-else icon="mdi-shuffle-variant" title="No categories yet" />
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
+    <div class="grid" style="grid-template-columns: 7fr 5fr;gap:16px">
+      <div class="card">
+        <div class="flex items-center justify-between pa-4" style="border-bottom:1px solid var(--border)">
+          <h3 class="text-h6">Recent Passwords</h3>
+          <router-link to="/passwords" class="text-primary text-body">View All</router-link>
+        </div>
+        <div class="pa-2">
+          <div v-if="recentPasswords.length">
+            <div v-for="item in recentPasswords" :key="item.id" class="password-list-item" @click="router.push(`/passwords/${item.id}`)">
+              <div class="avatar avatar-md avatar-primary" style="border-radius:12px">
+                <span>{{ item.site_name?.charAt(0)?.toUpperCase() || '?' }}</span>
+              </div>
+              <div style="flex:1;min-width:0">
+                <div class="text-body font-medium">{{ item.site_name }}</div>
+                <div class="text-caption text-secondary">{{ item.site_url || 'No URL' }}</div>
+              </div>
+              <span class="chip chip-primary">{{ item.category }}</span>
+            </div>
+          </div>
+          <div v-else class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+            <h3>No passwords yet</h3>
+            <p>Add your first password to get started</p>
+          </div>
+        </div>
+      </div>
 
-    <v-dialog v-model="showAddModal" max-width="520" scrollable>
-      <v-card>
-        <v-card-title class="d-flex justify-space-between align-center pa-4">
-          <span class="text-h6">Add New Password</span>
-          <v-btn icon variant="text" size="small" @click="showAddModal = false"><v-icon>mdi-close</v-icon></v-btn>
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-4">
-          <v-form @submit.prevent="handleAdd">
-            <v-text-field v-model="addForm.siteName" label="Site Name *" prepend-inner-icon="mdi-web" required class="mb-3" />
-            <v-text-field v-model="addForm.siteUrl" label="Site URL" prepend-inner-icon="mdi-link" class="mb-3" />
-            <v-text-field v-model="addForm.username" label="Username *" prepend-inner-icon="mdi-account" required class="mb-3" />
-            <v-text-field v-model="addForm.password" label="Password *" prepend-inner-icon="mdi-key" required class="mb-3" />
-            <div class="mb-3">
+      <div class="card">
+        <h3 class="text-h6 pa-4" style="border-bottom:1px solid var(--border)">Categories</h3>
+        <div class="pa-2">
+          <div v-if="categories.length">
+            <div v-for="cat in categories" :key="cat.category" class="flex items-center justify-between pa-3" style="border-bottom:1px solid var(--border)">
+              <div class="flex items-center gap-2">
+                <div style="width:10px;height:10px;border-radius:50%;background:var(--primary)"></div>
+                <span class="text-body">{{ cat.category }}</span>
+              </div>
+              <span class="chip chip-primary">{{ cat.count }}</span>
+            </div>
+          </div>
+          <div v-else class="empty-state">
+            <svg width="48" height="48" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polygon points="12 2 22 8.5 22 15.5 12 22 2 15.5 2 8.5 12 2"/><line x1="12" y1="22" x2="12" y2="15.5"/><polyline points="22 8.5 12 15.5 2 8.5"/></svg>
+            <h3>No categories yet</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="showAddModal" class="modal-overlay" @click.self="showAddModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Add New Password</h3>
+          <button class="btn-icon btn-ghost" @click="showAddModal = false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form @submit.prevent="handleAdd">
+            <div class="form-group">
+              <label class="form-label">Site Name *</label>
+              <input v-model="addForm.siteName" class="form-input" placeholder="Site Name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Site URL</label>
+              <input v-model="addForm.siteUrl" class="form-input" placeholder="Site URL" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Username *</label>
+              <input v-model="addForm.username" class="form-input" placeholder="Username" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password *</label>
+              <input v-model="addForm.password" class="form-input" placeholder="Password" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category</label>
               <template v-if="!showNewCat">
-                <v-select v-model="addForm.category" :items="['General', ...categoryList.filter(c => c !== 'General'), { title: '+ Add new category', value: '__new__' }]" label="Category" prepend-inner-icon="mdi-tag" clearable class="mb-3" />
+                <select v-model="addForm.category" class="form-input">
+                  <option value="General">General</option>
+                  <option v-for="c in categoryList.filter(c => c !== 'General')" :key="c" :value="c">{{ c }}</option>
+                  <option value="__new__">+ Add new category</option>
+                </select>
               </template>
-              <div v-else class="d-flex ga-2 align-center">
-                <v-text-field v-model="newCatName" label="New category name" hide-details density="compact" @keyup.enter="confirmNewCategory" />
-                <v-btn color="primary" size="small" @click="confirmNewCategory">Add</v-btn>
-                <v-btn variant="tonal" size="small" @click="showNewCat = false; newCatName = ''">Cancel</v-btn>
+              <div v-else class="flex gap-2 items-center">
+                <input v-model="newCatName" class="form-input" placeholder="New category name" @keyup.enter="confirmNewCategory" style="flex:1" />
+                <button type="button" class="btn btn-primary btn-sm" @click="confirmNewCategory">Add</button>
+                <button type="button" class="btn btn-outline btn-sm" @click="showNewCat = false; newCatName = ''">Cancel</button>
               </div>
             </div>
-            <v-textarea v-model="addForm.notes" label="Notes" prepend-inner-icon="mdi-note-text" rows="3" class="mb-3" />
-          </v-form>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions class="pa-4">
-          <v-spacer />
-          <v-btn variant="tonal" @click="showAddModal = false">Cancel</v-btn>
-          <v-btn color="primary" :loading="submitting" @click="handleAdd">Save Password</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-container>
+            <div class="form-group">
+              <label class="form-label">Notes</label>
+              <textarea v-model="addForm.notes" class="form-input" placeholder="Notes" rows="3"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" @click="showAddModal = false">Cancel</button>
+          <button class="btn btn-primary" :disabled="submitting" @click="handleAdd">
+            <span v-if="submitting" class="spinner" style="width:16px;height:16px;border-width:2px"></span>
+            <span v-else>Save Password</span>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.stat-card { transition: box-shadow var(--transition); }
+.stat-card:hover { box-shadow: var(--shadow-md); }
+.password-list-item {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  padding: 10px 12px;
+  border-radius: var(--radius);
+  cursor: pointer;
+  transition: background var(--transition);
+}
+.password-list-item:hover { background: rgba(0,0,0,0.03); }
+html.dark .password-list-item:hover { background: rgba(255,255,255,0.04); }
+</style>

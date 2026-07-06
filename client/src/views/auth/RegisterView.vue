@@ -14,7 +14,7 @@ const showConfirm = ref(false)
 
 const passwordStrength = computed(() => {
   const pwd = form.value.password
-  if (!pwd) return { level: 0, color: '', text: '' }
+  if (!pwd) return { level: 0, color: '', text: '', width: 0 }
   let score = 0
   if (pwd.length >= 8) score++
   if (pwd.length >= 12) score++
@@ -23,9 +23,9 @@ const passwordStrength = computed(() => {
   if (/\d/.test(pwd)) score++
   if (/[^a-zA-Z0-9]/.test(pwd)) score++
 
-  if (score <= 2) return { level: 1, color: 'error', text: 'Weak' }
-  if (score <= 4) return { level: 2, color: 'warning', text: 'Medium' }
-  return { level: 3, color: 'success', text: 'Strong' }
+  if (score <= 2) return { level: 1, color: 'var(--error)', text: 'Weak', width: 33 }
+  if (score <= 4) return { level: 2, color: 'var(--warning)', text: 'Medium', width: 66 }
+  return { level: 3, color: 'var(--success)', text: 'Strong', width: 100 }
 })
 
 async function handleRegister() {
@@ -66,64 +66,168 @@ async function handleRegister() {
 </script>
 
 <template>
-  <v-container fluid class="fill-height auth-page pa-0">
-    <v-row align="center" justify="center" class="ma-0 fill-height">
-      <v-col cols="12" sm="10" md="6" lg="5">
-        <v-card class="pa-8">
-          <div class="text-center mb-6">
-            <v-avatar color="primary" size="56" class="mb-3" style="border-radius: 14px">
-              <v-icon color="white" size="28">mdi-lock</v-icon>
-            </v-avatar>
-            <h1 class="text-h5 font-weight-bold mb-1">Create Account</h1>
-            <p class="text-body-2 text-medium-emphasis">Join SecurePass to manage your passwords</p>
+  <div class="auth-page">
+    <div class="auth-container">
+      <div class="auth-card card pa-8">
+        <div class="text-center mb-6">
+          <div class="auth-logo">
+            <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+          </div>
+          <h1 class="text-h4 font-bold mb-1">Create Account</h1>
+          <p class="text-body text-secondary">Join SecurePass to manage your passwords</p>
+        </div>
+
+        <div v-if="error" class="alert alert-error mb-4">
+          <span style="flex:1">{{ error }}</span>
+          <button class="alert-close" @click="error = ''">&times;</button>
+        </div>
+
+        <form @submit.prevent="handleRegister">
+          <div class="grid grid-2">
+            <div class="form-group">
+              <label class="form-label" for="username">Username</label>
+              <div class="input-icon-wrap">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <input id="username" v-model="form.username" type="text" class="form-input" placeholder="Username" autocomplete="username" :disabled="loading" />
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="fullName">Full Name</label>
+              <div class="input-icon-wrap">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>
+                </span>
+                <input id="fullName" v-model="form.fullName" type="text" class="form-input" placeholder="Full Name" autocomplete="name" :disabled="loading" />
+              </div>
+            </div>
           </div>
 
-          <v-alert v-if="error" type="error" variant="tonal" closable class="mb-4" density="compact" @click:close="error = ''">
-            {{ error }}
-          </v-alert>
-
-          <v-form @submit.prevent="handleRegister">
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field v-model="form.username" label="Username" prepend-inner-icon="mdi-account" autocomplete="username" :disabled="loading" class="mb-3" />
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field v-model="form.fullName" label="Full Name" prepend-inner-icon="mdi-account-badge" autocomplete="name" :disabled="loading" class="mb-3" />
-              </v-col>
-            </v-row>
-
-            <v-text-field v-model="form.email" label="Email" prepend-inner-icon="mdi-email" type="email" autocomplete="email" :disabled="loading" class="mb-3" />
-
-            <v-row>
-              <v-col cols="12" sm="6">
-                <v-text-field v-model="form.password" label="Password" prepend-inner-icon="mdi-lock" :append-inner-icon="showPassword ? 'mdi-eye-off' : 'mdi-eye'" :type="showPassword ? 'text' : 'password'" autocomplete="new-password" :disabled="loading" @click:append-inner="showPassword = !showPassword" class="mb-3" />
-                <v-progress-linear v-if="form.password" :model-value="passwordStrength.level * 33" :color="passwordStrength.color" height="4" rounded class="mt-n2 mb-1" />
-                <div v-if="form.password" class="text-caption text-right" :class="`text-${passwordStrength.color}`">
-                  {{ passwordStrength.text }}
-                </div>
-              </v-col>
-              <v-col cols="12" sm="6">
-                <v-text-field v-model="form.confirmPassword" label="Confirm Password" prepend-inner-icon="mdi-lock" :append-inner-icon="showConfirm ? 'mdi-eye-off' : 'mdi-eye'" :type="showConfirm ? 'text' : 'password'" autocomplete="new-password" :disabled="loading" @click:append-inner="showConfirm = !showConfirm" class="mb-3" />
-              </v-col>
-            </v-row>
-
-            <v-btn type="submit" color="primary" size="large" block :loading="loading" class="mb-4 mt-2">
-              Create Account
-            </v-btn>
-          </v-form>
-
-          <div class="text-center text-body-2 text-medium-emphasis">
-            Already have an account?
-            <router-link to="/login" class="text-primary font-weight-bold text-decoration-none">Sign in</router-link>
+          <div class="form-group">
+            <label class="form-label" for="email">Email</label>
+            <div class="input-icon-wrap">
+              <span class="input-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
+              </span>
+              <input id="email" v-model="form.email" type="email" class="form-input" placeholder="Email" autocomplete="email" :disabled="loading" />
+            </div>
           </div>
-        </v-card>
-      </v-col>
-    </v-row>
-  </v-container>
+
+          <div class="grid grid-2">
+            <div class="form-group">
+              <label class="form-label" for="reg-password">Password</label>
+              <div class="input-icon-wrap">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <input id="reg-password" v-model="form.password" :type="showPassword ? 'text' : 'password'" class="form-input" placeholder="Password" autocomplete="new-password" :disabled="loading" />
+                <button type="button" class="input-suffix" @click="showPassword = !showPassword" tabindex="-1">
+                  <svg v-if="showPassword" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+              <div v-if="form.password" class="strength-bar-wrap">
+                <div class="strength-bar" :style="{ width: passwordStrength.width + '%', background: passwordStrength.color }"></div>
+              </div>
+              <div v-if="form.password" class="text-right text-caption" :style="{ color: passwordStrength.color }">
+                {{ passwordStrength.text }}
+              </div>
+            </div>
+            <div class="form-group">
+              <label class="form-label" for="confirmPassword">Confirm Password</label>
+              <div class="input-icon-wrap">
+                <span class="input-icon">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                </span>
+                <input id="confirmPassword" v-model="form.confirmPassword" :type="showConfirm ? 'text' : 'password'" class="form-input" placeholder="Confirm Password" autocomplete="new-password" :disabled="loading" />
+                <button type="button" class="input-suffix" @click="showConfirm = !showConfirm" tabindex="-1">
+                  <svg v-if="showConfirm" width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M17.94 17.94A10.07 10.07 0 0 1 12 20c-7 0-11-8-11-8a18.45 18.45 0 0 1 5.06-5.94M9.9 4.24A9.12 9.12 0 0 1 12 4c7 0 11 8 11 8a18.5 18.5 0 0 1-2.16 3.19m-6.72-1.07a3 3 0 1 1-4.24-4.24"/><line x1="1" y1="1" x2="23" y2="23"/></svg>
+                  <svg v-else width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/><circle cx="12" cy="12" r="3"/></svg>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <button type="submit" class="btn btn-primary btn-lg btn-block mb-4 mt-2" :disabled="loading">
+            <span v-if="loading" class="spinner" style="width:18px;height:18px;border-width:2px"></span>
+            <span v-else>Create Account</span>
+          </button>
+        </form>
+
+        <div class="text-center text-body text-secondary">
+          Already have an account?
+          <router-link to="/login" class="font-bold">Sign in</router-link>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
 
 <style scoped>
 .auth-page {
-  background: rgb(var(--v-theme-background));
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: var(--bg);
+  padding: 24px;
+}
+.auth-container {
+  width: 100%;
+  max-width: 600px;
+}
+.auth-card { width: 100%; }
+.auth-logo {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  background: var(--primary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+}
+.input-icon-wrap {
+  position: relative;
+}
+.input-icon-wrap .input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  display: flex;
+}
+.input-icon-wrap .form-input {
+  padding-left: 38px;
+  padding-right: 38px;
+}
+.input-suffix {
+  position: absolute;
+  right: 4px;
+  top: 50%;
+  transform: translateY(-50%);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px;
+  color: var(--text-muted);
+  display: flex;
+  align-items: center;
+}
+.input-suffix:hover { color: var(--text-secondary); }
+.strength-bar-wrap {
+  height: 4px;
+  background: var(--border);
+  border-radius: 9999px;
+  margin-top: 6px;
+  overflow: hidden;
+}
+.strength-bar {
+  height: 100%;
+  border-radius: 9999px;
+  transition: width 0.3s ease;
 }
 </style>

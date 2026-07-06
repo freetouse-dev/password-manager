@@ -116,131 +116,180 @@ function prevPage() {
 </script>
 
 <template>
-  <v-container fluid class="pa-6">
-    <v-row align="center" justify="space-between" class="mb-4">
-      <v-col>
-        <h1 class="text-h4 font-weight-bold">My Passwords</h1>
-        <p class="text-body-2 text-medium-emphasis">{{ passwordStore.totalPasswords }} passwords stored securely</p>
-      </v-col>
-      <v-col cols="auto">
-        <v-btn color="primary" prepend-icon="mdi-plus" @click="showAddModal = true">Add Password</v-btn>
-      </v-col>
-    </v-row>
+  <div class="pa-6" style="max-width:1200px;margin:0 auto">
+    <div class="flex items-center justify-between mb-4 flex-wrap gap-3">
+      <div>
+        <h1 class="text-h4 font-bold">My Passwords</h1>
+        <p class="text-body text-secondary">{{ passwordStore.totalPasswords }} passwords stored securely</p>
+      </div>
+      <button class="btn btn-primary" @click="showAddModal = true">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="12" y1="5" x2="12" y2="19"/><line x1="5" y1="12" x2="19" y2="12"/></svg>
+        Add Password
+      </button>
+    </div>
 
-    <v-row class="mb-4">
-      <v-col cols="12" md="4">
-        <v-text-field v-model="search" label="Search passwords..." prepend-inner-icon="mdi-magnify" hide-details density="compact" @input="onSearch" />
-      </v-col>
-    </v-row>
+    <div class="flex flex-wrap gap-3 items-center mb-4">
+      <div style="flex:1;min-width:200px;max-width:360px">
+        <div class="input-icon-wrap">
+          <span class="input-icon">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="11" cy="11" r="8"/><line x1="21" y1="21" x2="16.65" y2="16.65"/></svg>
+          </span>
+          <input v-model="search" class="form-input" placeholder="Search passwords..." @input="onSearch" />
+        </div>
+      </div>
+    </div>
 
-    <div class="d-flex flex-wrap ga-2 mb-4">
-      <v-chip v-for="cat in allCategories" :key="cat" :color="selectedCategory === cat ? 'primary' : ''" :variant="selectedCategory === cat ? 'flat' : 'outlined'" size="small" filter @click="selectCategory(cat)">
+    <div class="flex flex-wrap gap-2 mb-4">
+      <button v-for="cat in allCategories" :key="cat" class="chip" :class="selectedCategory === cat ? 'chip-primary' : 'chip-outline'" @click="selectCategory(cat)">
         {{ cat }}
-      </v-chip>
-      <v-chip v-if="selectedCategory" variant="tonal" color="error" size="small" @click="selectCategory('')">
-        Clear
-      </v-chip>
+      </button>
+      <button v-if="selectedCategory" class="chip chip-error" @click="selectCategory('')">Clear</button>
     </div>
 
-    <v-row v-if="passwordStore.loading">
-      <v-col cols="12" class="text-center pa-10">
-        <v-progress-circular indeterminate color="primary" />
-      </v-col>
-    </v-row>
-
-    <v-row v-else-if="filteredPasswords.length === 0">
-      <v-col cols="12" class="text-center pa-10">
-        <v-icon size="64" color="grey-lighten-1" class="mb-4">mdi-lock</v-icon>
-        <h3 class="text-h6 text-medium-emphasis mb-2">No passwords found</h3>
-        <p class="text-body-2 text-medium-emphasis mb-4">Add your first password to get started</p>
-        <v-btn color="primary" @click="showAddModal = true">Add Password</v-btn>
-      </v-col>
-    </v-row>
-
-    <v-row v-else>
-      <v-col v-for="item in filteredPasswords" :key="item.id" cols="12" sm="6" md="4" lg="3">
-        <v-card hover @click="goToDetail(item.id)">
-          <v-card-item>
-            <template #prepend>
-              <v-avatar color="primary" size="44" rounded="lg">
-                <span class="text-white font-weight-bold text-h6">{{ item.site_name?.charAt(0)?.toUpperCase() || '?' }}</span>
-              </v-avatar>
-            </template>
-            <template #append>
-              <v-btn icon variant="text" size="x-small" color="grey" @click.stop="confirmDelete(item)">
-                <v-icon size="small">mdi-delete</v-icon>
-              </v-btn>
-            </template>
-            <v-card-title class="text-body-1 font-weight-bold pa-0">{{ item.site_name }}</v-card-title>
-            <v-card-subtitle class="text-caption pa-0">{{ item.site_username }}</v-card-subtitle>
-          </v-card-item>
-          <v-card-text class="pt-0">
-            <v-chip size="x-small" color="primary" variant="tonal">{{ item.category || 'General' }}</v-chip>
-          </v-card-text>
-        </v-card>
-      </v-col>
-    </v-row>
-
-    <div v-if="passwordStore.pagination.totalPages > 1" class="d-flex align-center justify-center ga-4 mt-6">
-      <v-btn icon variant="tonal" size="small" :disabled="currentPage <= 1" @click="prevPage">
-        <v-icon>mdi-chevron-left</v-icon>
-      </v-btn>
-      <span class="text-body-2 text-medium-emphasis">Page {{ currentPage }} of {{ passwordStore.pagination.totalPages }}</span>
-      <v-btn icon variant="tonal" size="small" :disabled="currentPage >= passwordStore.pagination.totalPages" @click="nextPage">
-        <v-icon>mdi-chevron-right</v-icon>
-      </v-btn>
+    <div v-if="passwordStore.loading" class="text-center pa-10">
+      <div class="spinner" style="margin:0 auto"></div>
     </div>
 
-    <v-dialog v-model="showAddModal" max-width="520" scrollable>
-      <v-card>
-        <v-card-title class="d-flex justify-space-between align-center pa-4">
-          <span class="text-h6">Add New Password</span>
-          <v-btn icon variant="text" size="small" @click="showAddModal = false"><v-icon>mdi-close</v-icon></v-btn>
-        </v-card-title>
-        <v-divider />
-        <v-card-text class="pa-4">
-          <v-form @submit.prevent="handleAdd">
-            <v-text-field v-model="addForm.siteName" label="Site Name *" prepend-inner-icon="mdi-web" required class="mb-3" />
-            <v-text-field v-model="addForm.siteUrl" label="Site URL" prepend-inner-icon="mdi-link" class="mb-3" />
-            <v-text-field v-model="addForm.username" label="Username *" prepend-inner-icon="mdi-account" required class="mb-3" />
-            <v-text-field v-model="addForm.password" label="Password *" prepend-inner-icon="mdi-key" required class="mb-3" />
-            <div class="mb-3">
+    <div v-else-if="filteredPasswords.length === 0" class="empty-state">
+      <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+      <h3>No passwords found</h3>
+      <p>Add your first password to get started</p>
+      <button class="btn btn-primary" @click="showAddModal = true">Add Password</button>
+    </div>
+
+    <div v-else class="grid grid-4">
+      <div v-for="item in filteredPasswords" :key="item.id" class="card password-card" @click="goToDetail(item.id)">
+        <div class="flex items-center justify-between" style="padding:16px 16px 8px">
+          <div class="flex items-center gap-3">
+            <div class="avatar avatar-md avatar-primary" style="border-radius:12px">
+              <span class="text-h6">{{ item.site_name?.charAt(0)?.toUpperCase() || '?' }}</span>
+            </div>
+            <div>
+              <div class="text-body font-bold">{{ item.site_name }}</div>
+              <div class="text-caption text-secondary">{{ item.site_username }}</div>
+            </div>
+          </div>
+          <button class="btn-icon btn-ghost" style="color:var(--text-muted)" @click.stop="confirmDelete(item)">
+            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="3 6 5 6 21 6"/><path d="M19 6v14a2 2 0 0 1-2 2H7a2 2 0 0 1-2-2V6m3 0V4a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v2"/></svg>
+          </button>
+        </div>
+        <div style="padding:8px 16px 16px">
+          <span class="chip chip-primary">{{ item.category || 'General' }}</span>
+        </div>
+      </div>
+    </div>
+
+    <div v-if="passwordStore.pagination.totalPages > 1" class="flex items-center justify-center gap-4 mt-6">
+      <button class="btn btn-outline btn-sm btn-icon" :disabled="currentPage <= 1" @click="prevPage">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="15 18 9 12 15 6"/></svg>
+      </button>
+      <span class="text-body text-secondary">Page {{ currentPage }} of {{ passwordStore.pagination.totalPages }}</span>
+      <button class="btn btn-outline btn-sm btn-icon" :disabled="currentPage >= passwordStore.pagination.totalPages" @click="nextPage">
+        <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polyline points="9 18 15 12 9 6"/></svg>
+      </button>
+    </div>
+
+    <div v-if="showAddModal" class="modal-overlay" @click.self="showAddModal = false">
+      <div class="modal-card">
+        <div class="modal-header">
+          <h3>Add New Password</h3>
+          <button class="btn-icon btn-ghost" @click="showAddModal = false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <form @submit.prevent="handleAdd">
+            <div class="form-group">
+              <label class="form-label">Site Name *</label>
+              <input v-model="addForm.siteName" class="form-input" placeholder="Site Name" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Site URL</label>
+              <input v-model="addForm.siteUrl" class="form-input" placeholder="Site URL" />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Username *</label>
+              <input v-model="addForm.username" class="form-input" placeholder="Username" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Password *</label>
+              <input v-model="addForm.password" class="form-input" placeholder="Password" required />
+            </div>
+            <div class="form-group">
+              <label class="form-label">Category</label>
               <template v-if="!showNewCat">
-                <v-select v-model="addForm.category" :items="['General', ...allCategories.filter(c => c !== 'General'), { title: '+ Add new category', value: '__new__' }]" label="Category" prepend-inner-icon="mdi-tag" clearable class="mb-3" />
+                <select v-model="addForm.category" class="form-input">
+                  <option value="General">General</option>
+                  <option v-for="c in allCategories.filter(c => c !== 'General')" :key="c" :value="c">{{ c }}</option>
+                  <option value="__new__">+ Add new category</option>
+                </select>
               </template>
-              <div v-else class="d-flex ga-2 align-center">
-                <v-text-field v-model="newCatName" label="New category name" hide-details density="compact" @keyup.enter="confirmNewCategory" />
-                <v-btn color="primary" size="small" @click="confirmNewCategory">Add</v-btn>
-                <v-btn variant="tonal" size="small" @click="showNewCat = false; newCatName = ''">Cancel</v-btn>
+              <div v-else class="flex gap-2 items-center">
+                <input v-model="newCatName" class="form-input" placeholder="New category name" @keyup.enter="confirmNewCategory" style="flex:1" />
+                <button type="button" class="btn btn-primary btn-sm" @click="confirmNewCategory">Add</button>
+                <button type="button" class="btn btn-outline btn-sm" @click="showNewCat = false; newCatName = ''">Cancel</button>
               </div>
             </div>
-            <v-textarea v-model="addForm.notes" label="Notes" prepend-inner-icon="mdi-note-text" rows="3" />
-          </v-form>
-        </v-card-text>
-        <v-divider />
-        <v-card-actions class="pa-4">
-          <v-spacer />
-          <v-btn variant="tonal" @click="showAddModal = false">Cancel</v-btn>
-          <v-btn color="primary" :loading="submitting" @click="handleAdd">Save Password</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
+            <div class="form-group">
+              <label class="form-label">Notes</label>
+              <textarea v-model="addForm.notes" class="form-input" placeholder="Notes" rows="3"></textarea>
+            </div>
+          </form>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" @click="showAddModal = false">Cancel</button>
+          <button class="btn btn-primary" :disabled="submitting" @click="handleAdd">
+            <span v-if="submitting" class="spinner" style="width:16px;height:16px;border-width:2px"></span>
+            <span v-else>Save Password</span>
+          </button>
+        </div>
+      </div>
+    </div>
 
-    <v-dialog v-model="showDeleteModal" max-width="400">
-      <v-card>
-        <v-card-title class="text-h6 pa-4">Delete Password</v-card-title>
-        <v-divider />
-        <v-card-text class="pa-4">
-          <p class="text-body-2 text-medium-emphasis mb-2">
-            Are you sure you want to delete <strong>{{ deleteTarget?.site_name }}</strong>? This action cannot be undone.
+    <div v-if="showDeleteModal" class="modal-overlay" @click.self="showDeleteModal = false">
+      <div class="modal-card" style="max-width:400px">
+        <div class="modal-header">
+          <h3>Delete Password</h3>
+          <button class="btn-icon btn-ghost" @click="showDeleteModal = false">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/></svg>
+          </button>
+        </div>
+        <div class="modal-body">
+          <p class="text-body text-secondary">
+            Are you sure you want to delete <strong style="color:var(--text)">{{ deleteTarget?.site_name }}</strong>? This action cannot be undone.
           </p>
-        </v-card-text>
-        <v-card-actions class="pa-4">
-          <v-spacer />
-          <v-btn variant="tonal" @click="showDeleteModal = false">Cancel</v-btn>
-          <v-btn color="error" @click="handleDelete">Delete</v-btn>
-        </v-card-actions>
-      </v-card>
-    </v-dialog>
-  </v-container>
+        </div>
+        <div class="modal-footer">
+          <button class="btn btn-outline" @click="showDeleteModal = false">Cancel</button>
+          <button class="btn" style="background:var(--error);color:#fff" @click="handleDelete">Delete</button>
+        </div>
+      </div>
+    </div>
+  </div>
 </template>
+
+<style scoped>
+.password-card {
+  cursor: pointer;
+  transition: all var(--transition);
+}
+.password-card:hover {
+  box-shadow: var(--shadow-md);
+  transform: translateY(-2px);
+}
+.input-icon-wrap {
+  position: relative;
+}
+.input-icon-wrap .input-icon {
+  position: absolute;
+  left: 12px;
+  top: 50%;
+  transform: translateY(-50%);
+  color: var(--text-muted);
+  pointer-events: none;
+  display: flex;
+}
+.input-icon-wrap .form-input {
+  padding-left: 38px;
+}
+</style>
