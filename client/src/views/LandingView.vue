@@ -17,12 +17,12 @@ onMounted(() => {
 })
 
 const features = [
-  { icon: 'mdi-lock', title: 'Military-Grade Encryption', desc: 'Your passwords are encrypted with AES-128-CBC before they ever leave your device. Even we cannot read them.' },
-  { icon: 'mdi-key', title: 'Password Generator', desc: 'Generate strong, unique passwords for every site. Complex combinations that hackers cannot crack.' },
-  { icon: 'mdi-sync', title: 'Cross-Device Sync', desc: 'Access your vault from any device. Your passwords stay synchronized and always available when you need them.' },
-  { icon: 'mdi-shield-check', title: 'Zero-Knowledge Architecture', desc: 'We use a zero-knowledge model — your master password unlocks your data locally, never transmitted to our servers.' },
-  { icon: 'mdi-share-variant', title: 'Secure Sharing', desc: 'Share passwords safely with trusted contacts. Full control over who sees what, with revocable access.' },
-  { icon: 'mdi-chart-line', title: 'Activity Monitoring', desc: 'Track every login and password use. Get alerts for suspicious activity and password health reports.' },
+  { icon: 'lock', title: 'Military-Grade Encryption', desc: 'Your passwords are encrypted with AES-128-CBC before they ever leave your device. Even we cannot read them.' },
+  { icon: 'key', title: 'Password Generator', desc: 'Generate strong, unique passwords for every site. Complex combinations that hackers cannot crack.' },
+  { icon: 'sync', title: 'Cross-Device Sync', desc: 'Access your vault from any device. Your passwords stay synchronized and always available when you need them.' },
+  { icon: 'shield', title: 'Zero-Knowledge Architecture', desc: 'We use a zero-knowledge model — your master password unlocks your data locally, never transmitted to our servers.' },
+  { icon: 'share', title: 'Secure Sharing', desc: 'Share passwords safely with trusted contacts. Full control over who sees what, with revocable access.' },
+  { icon: 'activity', title: 'Activity Monitoring', desc: 'Track every login and password use. Get alerts for suspicious activity and password health reports.' },
 ]
 
 function scrollToSection(id) {
@@ -33,18 +33,19 @@ function scrollToSection(id) {
 <template>
   <div class="landing">
     <header class="landing-bar" :class="{ scrolled }">
-      <div class="container d-flex align-center justify-space-between">
-        <div class="d-flex align-center ga-2">
+      <div class="container">
+        <div class="landing-bar-left">
           <div class="logo-icon">
-            <v-icon color="white" size="18">mdi-lock</v-icon>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
           <span class="logo-text">SecurePass</span>
         </div>
-        <nav class="d-flex align-center ga-3">
+        <nav class="landing-nav">
           <button class="nav-btn-text" @click="scrollToSection('features')">Features</button>
           <button class="nav-btn-text" @click="scrollToSection('cta')">Get Started</button>
           <button class="nav-btn-icon" @click="toggle">
-            <v-icon>{{ isDark ? 'mdi-weather-sunny' : 'mdi-weather-night' }}</v-icon>
+            <svg v-if="isDark" width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="5"/><line x1="12" y1="1" x2="12" y2="3"/><line x1="12" y1="21" x2="12" y2="23"/><line x1="4.22" y1="4.22" x2="5.64" y2="5.64"/><line x1="18.36" y1="18.36" x2="19.78" y2="19.78"/><line x1="1" y1="12" x2="3" y2="12"/><line x1="21" y1="12" x2="23" y2="12"/><line x1="4.22" y1="19.78" x2="5.64" y2="18.36"/><line x1="18.36" y1="5.64" x2="19.78" y2="4.22"/></svg>
+            <svg v-else width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M21 12.79A9 9 0 1 1 11.21 3 7 7 0 0 0 21 12.79z"/></svg>
           </button>
           <button class="nav-btn-outline" @click="router.push('/login')">Sign In</button>
           <button class="nav-btn-primary" @click="router.push('/register')">Get Started Free</button>
@@ -60,48 +61,50 @@ function scrollToSection(id) {
           <div class="hero-shape shape-3"></div>
           <div class="hero-grid"></div>
         </div>
-        <v-container class="hero-content">
-          <v-row align="center">
-            <v-col cols="12" md="6">
+        <div class="container hero-content">
+          <div class="hero-grid-layout">
+            <div class="hero-text-col">
               <div class="hero-badge">
                 Trusted by 10,000+ users worldwide
               </div>
-              <h1 class="hero-title">
+              <h1 class="text-h1 hero-title">
                 Your Passwords, <span class="gradient-text">Secured</span><br />Your Way
               </h1>
               <p class="hero-subtitle">
                 Stop reusing passwords and start protecting your digital life. SecurePass stores, generates, and manages your passwords with enterprise-grade encryption.
               </p>
-              <div class="d-flex flex-wrap ga-3 mb-8">
-                <v-btn color="primary" size="large" @click="router.push('/register')">
+              <div class="flex flex-wrap gap-3 mb-8">
+                <button class="btn btn-primary btn-lg" @click="router.push('/register')">
                   Start Free Trial
-                  <v-icon end>mdi-arrow-right</v-icon>
-                </v-btn>
-                <v-btn variant="outlined" size="large" @click="scrollToSection('features')">
-                  <v-icon start>mdi-play</v-icon>
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+                <button class="btn btn-outline btn-lg" @click="scrollToSection('features')">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><polygon points="5 3 19 12 5 21 5 3"/></svg>
                   See How It Works
-                </v-btn>
+                </button>
               </div>
-              <div class="d-flex ga-8">
+              <div class="flex gap-8">
                 <div>
-                  <div class="text-h5 font-weight-bold">99.9%</div>
-                  <div class="text-caption text-medium-emphasis">Uptime</div>
+                  <div class="text-h3 font-bold">99.9%</div>
+                  <div class="text-caption text-secondary">Uptime</div>
                 </div>
                 <div>
-                  <div class="text-h5 font-weight-bold">256-bit</div>
-                  <div class="text-caption text-medium-emphasis">Encryption</div>
+                  <div class="text-h3 font-bold">256-bit</div>
+                  <div class="text-caption text-secondary">Encryption</div>
                 </div>
                 <div>
-                  <div class="text-h5 font-weight-bold">50K+</div>
-                  <div class="text-caption text-medium-emphasis">Passwords Stored</div>
+                  <div class="text-h3 font-bold">50K+</div>
+                  <div class="text-caption text-secondary">Passwords Stored</div>
                 </div>
               </div>
-            </v-col>
-            <v-col cols="12" md="6" class="d-none d-md-flex justify-center">
+            </div>
+            <div class="hero-card-col hide-mobile">
               <div class="hero-card-mock">
                 <div class="mock-header">
                   <div class="mock-dots"><span></span><span></span><span></span></div>
-                  <div class="mock-lock"><v-icon>mdi-lock</v-icon></div>
+                  <div class="mock-lock">
+                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#1a56db" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                  </div>
                 </div>
                 <div class="mock-body">
                   <div class="mock-row"><span class="mock-label">GitHub</span><span class="mock-value">••••••••</span></div>
@@ -114,95 +117,103 @@ function scrollToSection(id) {
                   <span>Strong</span>
                 </div>
               </div>
-            </v-col>
-          </v-row>
-        </v-container>
+            </div>
+          </div>
+        </div>
       </section>
 
       <section id="features">
-        <v-container class="py-16">
+        <div class="container py-16">
           <div class="text-center mb-10">
-            <v-chip color="primary" variant="tonal" size="small" class="mb-4">Features</v-chip>
-            <h2 class="text-h3 font-weight-bold mb-2">Everything You Need for <span class="gradient-text">Digital Security</span></h2>
-            <p class="text-body-1 text-medium-emphasis">Powerful tools to keep your online accounts safe and organized</p>
+            <span class="chip chip-primary mb-4">Features</span>
+            <h2 class="text-h2 mb-2">Everything You Need for <span class="gradient-text">Digital Security</span></h2>
+            <p class="text-body text-secondary">Powerful tools to keep your online accounts safe and organized</p>
           </div>
-          <v-row>
-            <v-col v-for="feature in features" :key="feature.title" cols="12" sm="6" md="4">
-              <v-card hover class="pa-6 feature-card">
-                <v-icon size="40" color="primary" class="mb-4">mdi-{{ feature.icon }}</v-icon>
-                <h3 class="text-h6 font-weight-bold mb-2">{{ feature.title }}</h3>
-                <p class="text-body-2 text-medium-emphasis">{{ feature.desc }}</p>
-              </v-card>
-            </v-col>
-          </v-row>
-        </v-container>
+          <div class="grid grid-3">
+            <div v-for="feature in features" :key="feature.title" class="card pa-6 feature-card">
+              <div class="feature-icon">
+                <svg v-if="feature.icon === 'lock'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+                <svg v-else-if="feature.icon === 'key'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/></svg>
+                <svg v-else-if="feature.icon === 'sync'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="23 4 23 10 17 10"/><polyline points="1 20 1 14 7 14"/><path d="M3.51 9a9 9 0 0 1 14.85-3.36L23 10M1 14l4.64 4.36A9 9 0 0 0 20.49 15"/></svg>
+                <svg v-else-if="feature.icon === 'shield'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+                <svg v-else-if="feature.icon === 'share'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><line x1="8.59" y1="13.51" x2="15.42" y2="17.49"/><line x1="15.41" y1="6.51" x2="8.59" y2="10.49"/></svg>
+                <svg v-else-if="feature.icon === 'activity'" width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><polyline points="22 12 18 12 15 21 9 3 6 12 2 12"/></svg>
+                <svg v-else width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="var(--primary)" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/></svg>
+              </div>
+              <h3 class="text-h6 font-bold mb-2">{{ feature.title }}</h3>
+              <p class="text-body text-secondary">{{ feature.desc }}</p>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <v-container class="py-10">
-        <v-card class="pa-8 text-center d-flex align-center justify-space-around flex-wrap ga-6" variant="outlined" rounded="xl">
+      <div class="container py-10">
+        <div class="card pa-8 stats-bar">
           <div>
-            <div class="text-h4 font-weight-bold">10K+</div>
-            <div class="text-caption text-medium-emphasis">Active Users</div>
+            <div class="text-h2 font-bold">10K+</div>
+            <div class="text-caption text-secondary">Active Users</div>
           </div>
-          <v-divider vertical class="d-none d-sm-block" />
+          <div class="stats-divider"></div>
           <div>
-            <div class="text-h4 font-weight-bold">50K+</div>
-            <div class="text-caption text-medium-emphasis">Passwords Secured</div>
+            <div class="text-h2 font-bold">50K+</div>
+            <div class="text-caption text-secondary">Passwords Secured</div>
           </div>
-          <v-divider vertical class="d-none d-sm-block" />
+          <div class="stats-divider"></div>
           <div>
-            <div class="text-h4 font-weight-bold">99.9%</div>
-            <div class="text-caption text-medium-emphasis">Uptime Guarantee</div>
+            <div class="text-h2 font-bold">99.9%</div>
+            <div class="text-caption text-secondary">Uptime Guarantee</div>
           </div>
-          <v-divider vertical class="d-none d-sm-block" />
+          <div class="stats-divider"></div>
           <div>
-            <div class="text-h4 font-weight-bold">4.9★</div>
-            <div class="text-caption text-medium-emphasis">User Rating</div>
+            <div class="text-h2 font-bold">4.9★</div>
+            <div class="text-caption text-secondary">User Rating</div>
           </div>
-        </v-card>
-      </v-container>
+        </div>
+      </div>
 
       <section id="cta">
-        <v-container class="py-16">
-          <v-card color="primary" class="pa-10 d-flex align-center justify-space-between flex-wrap ga-6" rounded="xl">
-            <div class="flex-grow-1" style="max-width: 600px">
-              <h2 class="text-h3 font-weight-bold text-white mb-2">Ready to Secure Your Digital Life?</h2>
-              <p class="text-body-1 text-white mb-6" style="opacity: 0.8">Join thousands of users who trust SecurePass to protect their passwords. Start your free account today.</p>
-              <div class="d-flex flex-wrap ga-3">
-                <v-btn color="white" size="large" @click="router.push('/register')">
+        <div class="container py-16">
+          <div class="cta-card">
+            <div class="cta-content">
+              <h2 class="text-h1 text-white mb-2" style="font-size: 28px">Ready to Secure Your Digital Life?</h2>
+              <p class="cta-text">Join thousands of users who trust SecurePass to protect their passwords. Start your free account today.</p>
+              <div class="flex flex-wrap gap-3">
+                <button class="btn btn-lg" style="background:#fff;color:var(--primary);font-weight:700" @click="router.push('/register')">
                   Create Free Account
-                  <v-icon end>mdi-arrow-right</v-icon>
-                </v-btn>
-                <v-btn variant="outlined" color="white" size="large" @click="router.push('/login')">
+                  <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><line x1="5" y1="12" x2="19" y2="12"/><polyline points="12 5 19 12 12 19"/></svg>
+                </button>
+                <button class="btn btn-lg" style="background:transparent;color:#fff;border:1px solid rgba(255,255,255,0.4)" @click="router.push('/login')">
                   Sign In
-                </v-btn>
+                </button>
               </div>
             </div>
-            <v-avatar size="120" rounded="circle" class="hidden-xs" style="background: rgba(255,255,255,0.1)">
-              <v-icon size="60" color="white">mdi-shield-check</v-icon>
-            </v-avatar>
-          </v-card>
-        </v-container>
+            <div class="cta-icon hide-mobile">
+              <svg width="60" height="60" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/></svg>
+            </div>
+          </div>
+        </div>
       </section>
 
-      <v-footer class="pa-6 mt-6" border>
-        <v-container class="d-flex flex-column align-center ga-4">
-          <div class="d-flex align-center ga-2">
-            <v-avatar color="primary" size="28" rounded="lg" style="background: linear-gradient(135deg, #1a56db, #f97316)">
-              <v-icon color="white" size="14">mdi-lock</v-icon>
-            </v-avatar>
-            <span class="font-weight-bold">SecurePass</span>
+      <footer class="footer">
+        <div class="container">
+          <div class="footer-inner">
+            <div class="flex items-center gap-2">
+              <div class="logo-icon">
+                <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
+              </div>
+              <span class="font-bold">SecurePass</span>
+            </div>
+            <p class="text-caption text-secondary">Your digital security is our mission. Protect what matters.</p>
+            <div class="flex gap-4">
+              <a href="#" class="text-caption text-secondary">Privacy Policy</a>
+              <a href="#" class="text-caption text-secondary">Terms of Service</a>
+              <a href="#" class="text-caption text-secondary">Contact</a>
+            </div>
+            <div class="footer-divider"></div>
+            <p class="text-caption text-muted">&copy; {{ new Date().getFullYear() }} SecurePass. All rights reserved.</p>
           </div>
-          <p class="text-caption text-medium-emphasis">Your digital security is our mission. Protect what matters.</p>
-          <div class="d-flex ga-4">
-            <a href="#" class="text-caption text-medium-emphasis text-decoration-none">Privacy Policy</a>
-            <a href="#" class="text-caption text-medium-emphasis text-decoration-none">Terms of Service</a>
-            <a href="#" class="text-caption text-medium-emphasis text-decoration-none">Contact</a>
-          </div>
-          <v-divider />
-          <p class="text-caption text-medium-emphasis">&copy; {{ new Date().getFullYear() }} SecurePass. All rights reserved.</p>
-        </v-container>
-      </v-footer>
+        </div>
+      </footer>
     </main>
   </div>
 </template>
@@ -211,7 +222,7 @@ function scrollToSection(id) {
 .landing {
   overflow-x: hidden;
   min-height: 100vh;
-  background: rgb(var(--v-theme-background));
+  background: var(--bg);
 }
 .landing-bar {
   position: fixed;
@@ -225,18 +236,19 @@ function scrollToSection(id) {
   transition: background 0.3s ease, backdrop-filter 0.3s ease;
 }
 .landing-bar.scrolled {
-  background: rgba(var(--v-theme-surface), 0.85) !important;
+  background: var(--bg-card);
   backdrop-filter: blur(12px);
-  border-bottom: 1px solid rgba(var(--v-border-color), 0.3);
+  border-bottom: 1px solid var(--border);
 }
 .landing-bar .container {
-  width: 100%;
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 24px;
   display: flex;
   align-items: center;
   justify-content: space-between;
+}
+.landing-bar-left {
+  display: flex;
+  align-items: center;
+  gap: 8px;
 }
 .logo-icon {
   width: 32px;
@@ -251,64 +263,44 @@ function scrollToSection(id) {
   font-weight: 700;
   font-size: 18px;
 }
-.nav-btn-text {
+.landing-nav {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+.landing-nav .nav-btn-text {
   background: none;
   border: none;
   cursor: pointer;
   font-size: 13px;
   font-weight: 500;
-  color: rgba(var(--v-theme-on-surface), 0.8);
+  color: var(--text);
   padding: 6px 12px;
   border-radius: 6px;
   transition: background 0.2s;
 }
-.nav-btn-text:hover {
-  background: rgba(var(--v-theme-on-surface), 0.06);
+.landing-nav .nav-btn-text:hover { background: rgba(0,0,0,0.06); }
+html.dark .landing-nav .nav-btn-text:hover { background: rgba(255,255,255,0.08); }
+.landing-nav .nav-btn-icon {
+  background: none; border: none; cursor: pointer;
+  padding: 6px; border-radius: 6px;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--text); transition: background 0.2s;
 }
-.nav-btn-icon {
-  background: none;
-  border: none;
-  cursor: pointer;
-  padding: 6px;
-  border-radius: 6px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  color: rgba(var(--v-theme-on-surface), 0.8);
-  transition: background 0.2s;
+.landing-nav .nav-btn-icon:hover { background: rgba(0,0,0,0.06); }
+html.dark .landing-nav .nav-btn-icon:hover { background: rgba(255,255,255,0.08); }
+.landing-nav .nav-btn-outline {
+  background: none; border: 1px solid var(--border); cursor: pointer;
+  font-size: 13px; font-weight: 500;
+  color: var(--text); padding: 6px 16px; border-radius: 8px; transition: all 0.2s;
 }
-.nav-btn-icon:hover {
-  background: rgba(var(--v-theme-on-surface), 0.06);
+.landing-nav .nav-btn-outline:hover { border-color: var(--primary); color: var(--primary); }
+.landing-nav .nav-btn-primary {
+  background: var(--primary); border: none; cursor: pointer;
+  font-size: 13px; font-weight: 600; color: #fff;
+  padding: 6px 16px; border-radius: 8px; transition: opacity 0.2s;
 }
-.nav-btn-outline {
-  background: none;
-  border: 1px solid rgba(var(--v-theme-on-surface), 0.2);
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 500;
-  color: rgba(var(--v-theme-on-surface), 0.8);
-  padding: 6px 16px;
-  border-radius: 8px;
-  transition: all 0.2s;
-}
-.nav-btn-outline:hover {
-  border-color: rgb(var(--v-theme-primary));
-  color: rgb(var(--v-theme-primary));
-}
-.nav-btn-primary {
-  background: rgb(var(--v-theme-primary));
-  border: none;
-  cursor: pointer;
-  font-size: 13px;
-  font-weight: 600;
-  color: #fff;
-  padding: 6px 16px;
-  border-radius: 8px;
-  transition: opacity 0.2s;
-}
-.nav-btn-primary:hover {
-  opacity: 0.9;
-}
+.landing-nav .nav-btn-primary:hover { opacity: 0.9; }
 
 .hero {
   min-height: 100vh;
@@ -317,32 +309,23 @@ function scrollToSection(id) {
   position: relative;
 }
 .hero-bg {
-  position: absolute;
-  inset: 0;
-  pointer-events: none;
-  overflow: hidden;
+  position: absolute; inset: 0; pointer-events: none; overflow: hidden;
 }
 .hero-shape {
-  position: absolute;
-  border-radius: 50%;
-  filter: blur(100px);
-  opacity: 0.12;
+  position: absolute; border-radius: 50%; filter: blur(100px); opacity: 0.12;
 }
 .shape-1 {
-  width: 600px; height: 600px;
-  background: #1a56db;
+  width: 600px; height: 600px; background: #1a56db;
   top: -200px; right: -100px;
   animation: float 8s ease-in-out infinite;
 }
 .shape-2 {
-  width: 400px; height: 400px;
-  background: #f97316;
+  width: 400px; height: 400px; background: #f97316;
   bottom: -100px; left: -100px;
   animation: float 6s ease-in-out infinite reverse;
 }
 .shape-3 {
-  width: 300px; height: 300px;
-  background: #eab308;
+  width: 300px; height: 300px; background: #eab308;
   top: 40%; left: 10%;
   animation: float 10s ease-in-out infinite;
 }
@@ -351,48 +334,47 @@ function scrollToSection(id) {
   50% { transform: translate(40px, -40px) scale(1.1); }
 }
 .hero-grid {
-  position: absolute;
-  inset: 0;
+  position: absolute; inset: 0;
   background-image: radial-gradient(rgba(148, 163, 184, 0.4) 1px, transparent 1px);
   background-size: 40px 40px;
 }
 .hero-content { position: relative; z-index: 1; }
+.hero-grid-layout {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 48px;
+  align-items: center;
+  min-height: calc(100vh - 64px);
+}
+.hero-text-col {
+  padding: 40px 0;
+}
 .hero-badge {
   display: inline-flex;
   align-items: center;
   gap: 8px;
   padding: 6px 16px;
-  background: rgb(var(--v-theme-primary), 0.1);
-  border: 1px solid rgb(var(--v-theme-primary), 0.3);
+  background: var(--primary-light);
+  border: 1px solid rgba(26, 86, 219, 0.3);
   border-radius: 9999px;
   font-size: 13px;
   font-weight: 500;
-  color: rgb(var(--v-theme-primary));
+  color: var(--primary);
   margin-bottom: 24px;
 }
 .hero-title {
-  font-size: clamp(36px, 5vw, 60px);
-  font-weight: 800;
-  line-height: 1.1;
   margin-bottom: 20px;
-  letter-spacing: -1px;
-}
-.gradient-text {
-  background: linear-gradient(135deg, #1a56db, #f97316, #eab308);
-  -webkit-background-clip: text;
-  -webkit-text-fill-color: transparent;
-  background-clip: text;
 }
 .hero-subtitle {
   font-size: 17px;
   line-height: 1.7;
-  color: rgba(var(--v-theme-on-surface), 0.7);
+  color: var(--text-secondary);
   max-width: 520px;
   margin-bottom: 32px;
 }
 .hero-card-mock {
-  background: rgb(var(--v-theme-surface));
-  border: 1px solid rgba(var(--v-border-color), 1);
+  background: var(--bg-card);
+  border: 1px solid var(--border);
   border-radius: 24px;
   box-shadow: 0 20px 25px rgba(0,0,0,0.1);
   overflow: hidden;
@@ -405,7 +387,7 @@ function scrollToSection(id) {
 }
 .mock-header {
   padding: 16px 20px;
-  border-bottom: 1px solid rgba(var(--v-border-color), 1);
+  border-bottom: 1px solid var(--border);
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -419,31 +401,98 @@ function scrollToSection(id) {
   display: flex; align-items: center; justify-content: center;
   background: rgba(26, 86, 219, 0.1);
   border-radius: 8px;
-  color: #1a56db;
 }
 .mock-body { padding: 16px 20px; display: flex; flex-direction: column; gap: 12px; }
 .mock-row {
   display: flex; align-items: center; justify-content: space-between;
   padding: 8px 12px;
-  background: rgba(var(--v-theme-surface-variant), 0.5);
+  background: rgba(0,0,0,0.03);
   border-radius: 8px;
 }
+html.dark .mock-row { background: rgba(255,255,255,0.05); }
 .mock-label { font-size: 13px; font-weight: 600; }
 .mock-value { font-size: 13px; opacity: 0.5; letter-spacing: 2px; font-family: monospace; }
 .mock-footer {
   padding: 12px 20px;
-  border-top: 1px solid rgba(var(--v-border-color), 1);
+  border-top: 1px solid var(--border);
   display: flex; align-items: center; gap: 12px;
   font-size: 12px; font-weight: 600;
-  color: #10b981;
+  color: var(--success);
 }
-.mock-strength { flex: 1; height: 6px; background: rgba(var(--v-theme-surface-variant), 0.5); border-radius: 9999px; overflow: hidden; }
-.mock-strength-bar { height: 100%; background: linear-gradient(90deg, #10b981, #34d399); border-radius: 9999px; }
+.mock-strength { flex: 1; height: 6px; background: rgba(0,0,0,0.06); border-radius: 9999px; overflow: hidden; }
+html.dark .mock-strength { background: rgba(255,255,255,0.1); }
+.mock-strength-bar { height: 100%; background: linear-gradient(90deg, var(--success), #34d399); border-radius: 9999px; }
 
-.feature-card { transition: all 0.25s ease; }
-.feature-card:hover { transform: translateY(-4px); }
+.feature-card { transition: all 0.25s ease; cursor: default; }
+.feature-card:hover { transform: translateY(-4px); box-shadow: var(--shadow-md); }
+.feature-icon { margin-bottom: 16px; }
+
+.stats-bar {
+  display: flex;
+  align-items: center;
+  justify-content: space-around;
+  flex-wrap: wrap;
+  gap: 24px;
+  text-align: center;
+}
+.stats-divider {
+  width: 1px;
+  height: 48px;
+  background: var(--border);
+}
+@media (max-width: 640px) {
+  .stats-divider { display: none; }
+}
+
+.cta-card {
+  background: linear-gradient(135deg, var(--primary), #7c3aed);
+  padding: 40px;
+  border-radius: var(--radius-xl);
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-wrap: wrap;
+  gap: 24px;
+}
+.cta-content { flex: 1; min-width: 280px; }
+.cta-text {
+  font-size: 15px;
+  color: rgba(255,255,255,0.8);
+  margin-bottom: 24px;
+  max-width: 600px;
+}
+.cta-icon {
+  width: 120px;
+  height: 120px;
+  border-radius: 50%;
+  background: rgba(255,255,255,0.1);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.footer {
+  padding: 24px;
+  border-top: 1px solid var(--border);
+  margin-top: 24px;
+}
+.footer-inner {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+}
+.footer-divider {
+  width: 100%;
+  height: 1px;
+  background: var(--border);
+}
 
 @media (max-width: 959px) {
-  .hero-card-mock { display: none; }
+  .hero-grid-layout {
+    grid-template-columns: 1fr;
+  }
+  .hero-card-col { display: none; }
 }
 </style>

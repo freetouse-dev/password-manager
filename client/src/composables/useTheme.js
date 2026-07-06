@@ -1,26 +1,28 @@
-import { computed } from 'vue'
-import { useTheme as useVuetifyTheme } from 'vuetify'
+import { ref } from 'vue'
+
+const isDark = ref(false)
 
 export function useTheme() {
-  const vuetifyTheme = useVuetifyTheme()
-
-  const isDark = computed(() => vuetifyTheme.global.current.value.dark)
-
   function initialize() {
     const stored = localStorage.getItem('theme')
     if (stored === 'dark') {
-      vuetifyTheme.global.name.value = 'dark'
+      isDark.value = true
     } else if (stored === 'light') {
-      vuetifyTheme.global.name.value = 'light'
+      isDark.value = false
     } else if (window.matchMedia('(prefers-color-scheme: dark)').matches) {
-      vuetifyTheme.global.name.value = 'dark'
+      isDark.value = true
     }
+    applyTheme()
   }
 
   function toggle() {
-    const newTheme = vuetifyTheme.global.name.value === 'dark' ? 'light' : 'dark'
-    vuetifyTheme.global.name.value = newTheme
-    localStorage.setItem('theme', newTheme)
+    isDark.value = !isDark.value
+    localStorage.setItem('theme', isDark.value ? 'dark' : 'light')
+    applyTheme()
+  }
+
+  function applyTheme() {
+    document.documentElement.classList.toggle('dark', isDark.value)
   }
 
   return {
