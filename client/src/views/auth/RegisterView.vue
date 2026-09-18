@@ -74,7 +74,7 @@ async function handleRegister() {
             <svg width="28" height="28" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
           <h1 class="text-h4 font-bold mb-1">Create Account</h1>
-          <p class="text-body text-secondary">Join SecurePass to manage your passwords</p>
+          <p class="text-body text-secondary">Join SecurePasscode to manage your passwords</p>
         </div>
 
         <div v-if="error" class="alert alert-error mb-4">

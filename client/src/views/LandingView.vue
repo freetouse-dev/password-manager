@@ -38,7 +38,7 @@ function scrollToSection(id) {
           <div class="logo-icon">
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
           </div>
-          <span class="logo-text">SecurePass</span>
+          <span class="logo-text">SecurePasscode</span>
         </div>
         <nav class="landing-nav">
           <button class="nav-btn-text" @click="scrollToSection('features')">Features</button>
@@ -71,7 +71,7 @@ function scrollToSection(id) {
                 Your Passwords, <span class="gradient-text">Secured</span><br />Your Way
               </h1>
               <p class="hero-subtitle">
-                Stop reusing passwords and start protecting your digital life. SecurePass stores, generates, and manages your passwords with enterprise-grade encryption.
+                Stop reusing passwords and start protecting your digital life. SecurePasscode stores, generates, and manages your passwords with enterprise-grade encryption.
               </p>
               <div class="flex flex-wrap gap-3 mb-8">
                 <button class="btn btn-primary btn-lg" @click="router.push('/register')">
@@ -176,7 +176,7 @@ function scrollToSection(id) {
           <div class="cta-card">
             <div class="cta-content">
               <h2 class="text-h1 text-white mb-2" style="font-size: 28px">Ready to Secure Your Digital Life?</h2>
-              <p class="cta-text">Join thousands of users who trust SecurePass to protect their passwords. Start your free account today.</p>
+              <p class="cta-text">Join thousands of users who trust SecurePasscode to protect their passwords. Start your free account today.</p>
               <div class="flex flex-wrap gap-3">
                 <button class="btn btn-lg" style="background:#fff;color:var(--primary);font-weight:700" @click="router.push('/register')">
                   Create Free Account
@@ -201,7 +201,7 @@ function scrollToSection(id) {
               <div class="logo-icon">
                 <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="white" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/></svg>
               </div>
-              <span class="font-bold">SecurePass</span>
+              <span class="font-bold">SecurePasscode</span>
             </div>
             <p class="text-caption text-secondary">Your digital security is our mission. Protect what matters.</p>
             <div class="flex gap-4">
@@ -210,7 +210,7 @@ function scrollToSection(id) {
               <a href="#" class="text-caption text-secondary">Contact</a>
             </div>
             <div class="footer-divider"></div>
-            <p class="text-caption text-muted">&copy; {{ new Date().getFullYear() }} SecurePass. All rights reserved.</p>
+            <p class="text-caption text-muted">&copy; {{ new Date().getFullYear() }} SecurePasscode. All rights reserved.</p>
           </div>
         </div>
       </footer>
